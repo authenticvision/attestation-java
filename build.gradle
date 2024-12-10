@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.nbaars:paseto4j-version4:2024.3'
+    implementation 'org.json:json:20231013'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
+}
+
+test {
+    useJUnitPlatform()
+}
+
