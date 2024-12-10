@@ -7,6 +7,7 @@ import org.paseto4j.version4.PasetoPublic;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Security;
+import java.time.Instant;
 import java.util.Base64;
 
 public class Attestation {
@@ -59,6 +60,13 @@ public class Attestation {
 
         PublicKey publicKey = keyFetcher.get(kid);
         final String verified = PasetoPublic.parse(publicKey, token, footerRaw, "");
-        return new JSONObject(verified);
+        final JSONObject j = new JSONObject(verified);
+
+        final Instant expirationTime = Instant.parse(j.getString("exp"));
+        if (expirationTime.isBefore(Instant.now())) {
+            throw new TokenExpiredException(expirationTime);
+        }
+
+        return j;
     }
 }

@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 public class AttestationTest {
 
+    // The following test vector is sourced from AV's SIPv4 PASETO docs, version 4.3 (March 2024).
+    // It expires 2030, at which point tests might fail.
     private static final String PUBKEY =
         "k4.public.f2AxH__c3AQy_abwIYAZvwzLYrLPAUNH5o6cFzPj1_0";
     private static final String KID =
