@@ -1,5 +1,6 @@
 package example;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.paseto4j.commons.PublicKey;
 import org.paseto4j.version4.PasetoPublic;
@@ -10,10 +11,32 @@ import java.util.Base64;
 
 public class Attestation {
     private final KeyFetcher keyFetcher;
+    private final static Attestation instance = new Attestation(new KeyFetcher());
 
     static {
         // required for paseto4j, no-op if BouncyCastle is already registered
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+    }
+
+    public static void main(@NotNull String[] args) {
+        if (args.length != 1) {
+            System.err.println("usage: Attestation <token>");
+            System.exit(1);
+        }
+        try {
+            Attestation decoder = Attestation.getInstance();
+            JSONObject payload = decoder.decodeToken(args[0]);
+            System.out.println(payload.toString(2));
+            System.exit(0);
+        } catch (Exception e) {
+            System.err.print("Error: ");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public static Attestation getInstance() {
+        return instance;
     }
 
     public Attestation(KeyFetcher keyFetcher) {
