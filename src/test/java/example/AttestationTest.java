@@ -5,8 +5,6 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.security.Security;
-
 public class AttestationTest {
 
     private static final String PUBKEY =
@@ -27,7 +25,6 @@ public class AttestationTest {
                 return PUBKEY;
             }
         });
-        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
         JSONObject payload = decoder.decodeToken(TOKEN);
 
@@ -39,4 +36,3 @@ public class AttestationTest {
         Assertions.assertEquals("foo", payload.getJSONArray("extrefs").toList().stream().filter("foo"::equals).findFirst().orElse(null));
     }
 }
-

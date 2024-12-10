@@ -5,10 +5,16 @@ import org.paseto4j.commons.PublicKey;
 import org.paseto4j.version4.PasetoPublic;
 
 import java.nio.charset.StandardCharsets;
+import java.security.Security;
 import java.util.Base64;
 
 public class Attestation {
     private final KeyFetcher keyFetcher;
+
+    static {
+        // required for paseto4j, no-op if BouncyCastle is already registered
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+    }
 
     public Attestation(KeyFetcher keyFetcher) {
         this.keyFetcher = keyFetcher;
@@ -33,4 +39,3 @@ public class Attestation {
         return new JSONObject(verified);
     }
 }
-
