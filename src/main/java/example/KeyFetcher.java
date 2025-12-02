@@ -6,6 +6,7 @@ import org.paseto4j.commons.Version;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -27,7 +28,7 @@ public class KeyFetcher {
     }
 
     protected String fetchPubKey(String kid) throws Exception {
-        final URL url = new URL("https://sip-keys.authenticvision.com/v4/" + URLEncoder.encode(kid, StandardCharsets.UTF_8));
+        final URL url = URI.create("https://sip-keys.authenticvision.com/v4/" + URLEncoder.encode(kid, StandardCharsets.UTF_8)).toURL();
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setConnectTimeout(5000);
